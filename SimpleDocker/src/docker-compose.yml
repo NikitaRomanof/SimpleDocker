@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ./6
+      dockerfile: Dockerfile5
+    image: server_w:last
+    container_name: server
+    networks:
+      - local
+
+  proxy:
+    build:
+      context: ./6
+      dockerfile: Dockerfile6
+    image: proxy_w:last
+    container_name: proxy
+    networks:
+      - local
+    ports:
+      - "80:8080"
+    depends_on:
+      - server
+
+networks:
+  local:
+    driver: bridge

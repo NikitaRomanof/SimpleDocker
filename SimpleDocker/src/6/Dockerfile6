@@ -1,0 +1,30 @@
+FROM nginx
+
+WORKDIR /proxy/
+
+COPY ./proxy/ss.sh /proxy/
+COPY ./proxy/nginx/nginx.conf /etc/nginx/
+
+RUN apt-get -y update && apt-get install -y gcc libfcgi-dev spawn-fcgi make nano; \
+    chown -R nginx:nginx /var/cache/nginx/; \
+    chown -R nginx:nginx /var/run/; \
+    chown -R nginx:nginx /server/; \
+    chmod u-s /bin/mount; \
+    chmod u-s /bin/umount; \
+    chmod g-s /usr/bin/wall; \
+    chmod u-s /usr/bin/newgrp; \
+    chmod u-s /usr/bin/gpasswd; \
+    chmod g-s /usr/bin/expiry; \
+    chmod g-s /sbin/unix_chkpwd; \
+    chmod u-s /usr/bin/chfn; \
+    chmod u-s /usr/bin/chsh; \
+    chmod u-s /bin/su; \
+    chmod u-s /bin/su; \
+    chmod u-s /usr/bin/passwd; \
+    chmod g-s /usr/bin/chage; \
+    rm -rf /var/lib/apt/lists
+
+
+ENTRYPOINT [ "./ss.sh" ]
+USER nginx
+HEALTHCHECK NONE
